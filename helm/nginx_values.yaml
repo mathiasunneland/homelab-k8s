@@ -1,0 +1,4 @@
+controller:
+  service:
+    type: LoadBalancer
+    loadBalancerIP: ${nginx_lb_ip}

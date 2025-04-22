@@ -1,0 +1,9 @@
+- hosts: k8s_master
+  become: true
+  tasks:
+    - name: Setup cluster
+      shell: |
+        kubeadm init
+        mkdir -p /home/hus/.kube
+        cp /etc/kubernetes/admin.conf /home/hus/.kube/config
+        chown hus:hus /home/hus/.kube/config

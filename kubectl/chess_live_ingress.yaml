@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chess-live-ingress
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ${chess_live_domain}
+      secretName: chess-live-tls
+  rules:
+    - host: ${chess_live_domain}
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: chess-live-api
+                port:
+                  number: ${chess_live_api_port}
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: chess-live-front
+                port:
+                  number: ${chess_live_front_port}

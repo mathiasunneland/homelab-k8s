@@ -1,0 +1,106 @@
+# k8s-master-p2-playbook.yaml
+- hosts: k8s_master
+  tasks:
+    - name: Install helm
+      become: true
+      shell: |
+        curl -LO https://get.helm.sh/helm-v3.17.3-linux-amd64.tar.gz
+        tar -zxvf helm-v3.17.3-linux-amd64.tar.gz
+        mv linux-amd64/helm /usr/local/bin/helm
+
+    - name: Install cilium
+      shell: |
+        helm repo add cilium https://helm.cilium.io
+        helm repo update
+        helm install cilium cilium/cilium --version 1.17.3 --namespace kube-system
+
+    - name: Install local-path-provisioner
+      shell: |
+        kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.31/deploy/local-path-storage.yaml
+        kubectl patch storageclass local-path -p "{\"metadata\": {\"annotations\": {\"storageclass.kubernetes.io/is-default-class\": \"true\"}}}"
+
+    - name: Install metallb
+      shell: |
+        helm repo add metallb https://metallb.github.io/metallb
+        helm repo update
+        kubectl create namespace metallb-system
+        helm install metallb metallb/metallb --namespace metallb-system
+
+    - name: Install nginx-ingress-controller
+      shell: |
+        helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+        helm repo update
+        kubectl create namespace ingress-nginx
+        helm install ingress-nginx ingress-nginx/ingress-nginx --values /home/hus/nginx-values.yaml --namespace ingress-nginx
+
+    - name: Install postgres and redis
+      shell: |
+        helm install postgres oci://registry-1.docker.io/bitnamicharts/postgresql --values /home/hus/postgres-values.yaml
+        helm install redis oci://registry-1.docker.io/bitnamicharts/redis --values /home/hus/redis-values.yaml
+
+    - name: Install cert-manager
+      shell: |
+        helm repo add jetstack https://charts.jetstack.io
+        helm repo update
+        kubectl create namespace cert-manager
+        helm install cert-manager jetstack/cert-manager --version v1.17.0 --set crds.enabled=true --namespace cert-manager
+
+    - name: Install loki, promtail and prometheus
+      shell: |
+        helm repo add grafana https://grafana.github.io/helm-charts
+        helm repo update
+        kubectl create namespace monitoring
+        helm install loki grafana/loki --values /home/hus/loki-values.yaml --namespace monitoring
+        helm install promtail grafana/promtail --namespace monitoring
+        helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+        helm repo update
+        helm install prometheus prometheus-community/prometheus --values /home/hus/prometheus-values.yaml --namespace monitoring
+
+    - name: Install Grafana
+      shell: |
+        helm install grafana grafana/grafana --values /home/hus/grafana-values.yaml --namespace monitoring
+
+    - name: Apply MetalLB config
+      shell: |
+        kubectl apply -f metallb-config.yaml
+
+    - name: Setup chess-live
+      shell: |
+        kubectl apply -f imagepull-secrets.yaml
+        GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone git@github.com:${github_username}/chess-live-helm.git
+        kubectl apply -f chess-live-secrets.yaml
+        helm install analyzer ./chess-live-helm/analyzer
+        helm install api ./chess-live-helm/api
+        helm install front ./chess-live-helm/front
+        helm install loader ./chess-live-helm/loader
+        helm install migrate ./chess-live-helm/migrate
+
+    - name: Install python3.10-venv
+      become: true
+      shell: |
+        apt update
+        apt install -y python3.10-venv
+
+    - name: Setup systemd service for helm_upgrade
+      become: true
+      shell: |
+        python3 -m venv /home/hus/chess-live-helm/venv
+        /home/hus/chess-live-helm/venv/bin/pip install fastapi uvicorn
+        chmod +x /home/hus/chess-live-helm/helm-upgrade.py
+        mv /home/hus/helm_upgrade.service /lib/systemd/system/helm_upgrade.service
+        chmod 0644 /lib/systemd/system/helm_upgrade.service
+
+    - name: Enable, start, reload helm_upgrade service
+      become: true
+      shell: |
+        systemctl daemon-reload
+        systemctl start helm_upgrade.service
+        systemctl enable helm_upgrade.service
+
+    - name: Apply Ingress resource for chess-live
+      shell: |
+        kubectl apply -f chess-live-ingress.yaml
+
+    - name: Apply cert-manager ClusterIssuer
+      shell: |
+        kubectl apply -f clusterissuer.yaml

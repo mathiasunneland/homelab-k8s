@@ -1,0 +1,39 @@
+service:
+  type: LoadBalancer
+  loadBalancerIP: ${grafana_lb_ip}
+  port: ${grafana_port}
+  targetPort: ${grafana_port}
+adminUser: ${grafana_username}
+adminPassword: ${grafana_password}
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-server.monitoring.svc.cluster.local
+        access: proxy
+        isDefault: true
+      - name: Loki
+        type: loki
+        url: http://loki.monitoring.svc.cluster.local:${loki_port}
+        access: proxy
+        isDefault: false
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+dashboards:
+  default:
+    loki-logs:
+      gnetId: 15141
+      revision: 1
+      datasource: Loki

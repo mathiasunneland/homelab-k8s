@@ -1,0 +1,9 @@
+- hosts: k8s_workers
+  become: true
+  tasks:
+    - name: Get join command from the master
+      shell: kubeadm token create --print-join-command
+      delegate_to: ${k8s_master_ip}
+      register: join_command_output
+    - name: Join worker nodes to the master
+      shell: "{{ join_command_output.stdout }}"

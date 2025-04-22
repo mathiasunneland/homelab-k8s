@@ -1,14 +1,14 @@
-# Terraform-kubernetes
+# homelab-k8s
 
-Terraform-kubernetes is a project that utilizes Proxmox, Terraform and Ansible to automate the deployment of a k8s-cluster.
+Homelab-k8s is a project that utilizes Proxmox, Terraform and Ansible to automate the deployment of a k8s-cluster.
 
 ## Installation
 
 Use git clone to download the project.
 
 ```bash
-git clone https://github.com/mathiasunneland/terraform-kubernetes.git
-cd terraform-kubernetes
+git clone https://github.com/mathiasunneland/homelab-k8s.git
+cd homelab-k8s
 ```
 
 ## Dependencies
@@ -31,14 +31,14 @@ The code needs these changes for the project to work:
 
 The Proxmox host needs these changes for the project to work:
 
-- The local-storage on Proxmox needs to support snippets, so run this and make sure local supports snippets:
+- The local-storage on Proxmox needs to support snippets, so run this and make sure it does:
 
 ```bash
-nano /etc/pve/storage.cfg
+nano /etc/pve/storage.cfg # Run this on the Proxmox host shell
 
 dir: local
         path /var/lib/vz
-        content iso,vztmpl,backup,snippets # Add snippets here
+        content iso,vztmpl,backup,snippets # Add "snippets" here like this
 
 lvmthin: local-lvm
         thinpool data

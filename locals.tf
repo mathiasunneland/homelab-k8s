@@ -1,4 +1,61 @@
 locals {
+  control_cloud_init = templatefile("control_cloud_init.yaml", {
+    public_key_control_vm = var.public_key_control_vm
+    public_key_user1      = var.public_key_user1
+    public_key_user2      = var.public_key_user2
+  })
+
+  k8s_master_cloud_init = templatefile("k8s_master_cloud_init.yaml", {
+    public_key_control_vm = var.public_key_control_vm
+    public_key_user1      = var.public_key_user1
+    public_key_user2      = var.public_key_user2
+  })
+
+  k8s_worker_1_cloud_init = templatefile("k8s_worker_1_cloud_init.yaml", {
+    public_key_control_vm = var.public_key_control_vm
+    public_key_user1      = var.public_key_user1
+    public_key_user2      = var.public_key_user2
+  })
+
+  k8s_worker_2_cloud_init = templatefile("k8s_worker_2_cloud_init.yaml", {
+    public_key_control_vm = var.public_key_control_vm
+    public_key_user1      = var.public_key_user1
+    public_key_user2      = var.public_key_user2
+  })
+
+  k8s_worker_3_cloud_init = templatefile("k8s_worker_3_cloud_init.yaml", {
+    public_key_control_vm = var.public_key_control_vm
+    public_key_user1      = var.public_key_user1
+    public_key_user2      = var.public_key_user2
+  })
+
+  k8s_inventory = templatefile("k8s_inventory.ini", {
+    k8s_master_ip   = var.k8s_master_ip
+    k8s_worker_1_ip = var.k8s_worker_1_ip
+    k8s_worker_2_ip = var.k8s_worker_2_ip
+    k8s_worker_3_ip = var.k8s_worker_3_ip
+  })
+
+  k8s_master_p2_playbook = templatefile("k8s_master_p2_playbook.yaml", {
+    github_username = var.github_username
+  })
+
+  k8s_workers_playbook = templatefile("k8s_workers_playbook.yaml", {
+    k8s_master_ip = var.k8s_master_ip
+  })
+
+  cluster_issuer = templatefile("${path.module}/kubectl/clusterissuer.yaml", {
+    github_email = var.github_email
+  })
+
+  metallb_config = templatefile("metallb_config.yaml", {
+    metallb_ipaddresspool = var.metallb_ipaddresspool
+  })
+
+  imagepull_secrets = templatefile("imagepull_secrets.yaml", {
+    imagepull_secret_dockerconfigjson = var.imagepull_secret_dockerconfigjson
+  })
+
   grafana_values = templatefile("grafana_values.yaml", {
     grafana_username = var.grafana_username
     grafana_password = var.grafana_password
@@ -33,62 +90,5 @@ locals {
     chess_live_db                 = var.chess_live_db
     redis_url                     = var.redis_url
     openai_api_key                = var.openai_api_key
-  })
-
-  cluster_issuer = templatefile("${path.module}/kubectl/clusterissuer.yaml", {
-    github_email = var.github_email
-  })
-
-  imagepull_secrets = templatefile("imagepull_secrets.yaml", {
-    imagepull_secret_dockerconfigjson = var.imagepull_secret_dockerconfigjson
-  })
-
-  metallb_config = templatefile("metallb_config.yaml", {
-    metallb_ipaddresspool = var.metallb_ipaddresspool
-  })
-
-  k8s_inventory = templatefile("k8s_inventory.ini", {
-    k8s_master_ip   = var.k8s_master_ip
-    k8s_worker_1_ip = var.k8s_worker_1_ip
-    k8s_worker_2_ip = var.k8s_worker_2_ip
-    k8s_worker_3_ip = var.k8s_worker_3_ip
-  })
-
-  k8s_master_p2_playbook = templatefile("k8s_master_p2_playbook.yaml", {
-    github_username = var.github_username
-  })
-
-  k8s_workers_playbook = templatefile("k8s_workers_playbook.yaml", {
-    k8s_master_ip = var.k8s_master_ip
-  })
-
-  control_cloud_init = templatefile("control_cloud_init.yaml", {
-    public_key_control_vm = var.public_key_control_vm
-    public_key_user1      = var.public_key_user1
-    public_key_user2      = var.public_key_user2
-  })
-
-  k8s_master_cloud_init = templatefile("k8s_master_cloud_init.yaml", {
-    public_key_control_vm = var.public_key_control_vm
-    public_key_user1      = var.public_key_user1
-    public_key_user2      = var.public_key_user2
-  })
-
-  k8s_worker_1_cloud_init = templatefile("k8s_worker_1_cloud_init.yaml", {
-    public_key_control_vm = var.public_key_control_vm
-    public_key_user1      = var.public_key_user1
-    public_key_user2      = var.public_key_user2
-  })
-
-  k8s_worker_2_cloud_init = templatefile("k8s_worker_2_cloud_init.yaml", {
-    public_key_control_vm = var.public_key_control_vm
-    public_key_user1      = var.public_key_user1
-    public_key_user2      = var.public_key_user2
-  })
-
-  k8s_worker_3_cloud_init = templatefile("k8s_worker_3_cloud_init.yaml", {
-    public_key_control_vm = var.public_key_control_vm
-    public_key_user1      = var.public_key_user1
-    public_key_user2      = var.public_key_user2
   })
 }

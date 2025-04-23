@@ -31,12 +31,12 @@
         helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
         helm repo update
         kubectl create namespace ingress-nginx
-        helm install ingress-nginx ingress-nginx/ingress-nginx --values /home/hus/nginx-values.yaml --namespace ingress-nginx
+        helm install ingress-nginx ingress-nginx/ingress-nginx --values /home/hus/nginx_values.yaml --namespace ingress-nginx
 
     - name: Install postgres and redis
       shell: |
-        helm install postgres oci://registry-1.docker.io/bitnamicharts/postgresql --values /home/hus/postgres-values.yaml
-        helm install redis oci://registry-1.docker.io/bitnamicharts/redis --values /home/hus/redis-values.yaml
+        helm install postgres oci://registry-1.docker.io/bitnamicharts/postgresql --values /home/hus/postgres_values.yaml
+        helm install redis oci://registry-1.docker.io/bitnamicharts/redis --values /home/hus/redis_values.yaml
 
     - name: Install cert-manager
       shell: |
@@ -50,25 +50,25 @@
         helm repo add grafana https://grafana.github.io/helm-charts
         helm repo update
         kubectl create namespace monitoring
-        helm install loki grafana/loki --values /home/hus/loki-values.yaml --namespace monitoring
+        helm install loki grafana/loki --values /home/hus/loki_values.yaml --namespace monitoring
         helm install promtail grafana/promtail --namespace monitoring
         helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
         helm repo update
-        helm install prometheus prometheus-community/prometheus --values /home/hus/prometheus-values.yaml --namespace monitoring
+        helm install prometheus prometheus-community/prometheus --values /home/hus/prometheus_values.yaml --namespace monitoring
 
     - name: Install Grafana
       shell: |
-        helm install grafana grafana/grafana --values /home/hus/grafana-values.yaml --namespace monitoring
+        helm install grafana grafana/grafana --values /home/hus/grafana_values.yaml --namespace monitoring
 
     - name: Apply MetalLB config
       shell: |
-        kubectl apply -f metallb-config.yaml
+        kubectl apply -f metallb_config.yaml
 
     - name: Setup chess-live
       shell: |
-        kubectl apply -f imagepull-secrets.yaml
+        kubectl apply -f imagepull_secrets.yaml
         GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone git@github.com:${github_username}/chess-live-helm.git
-        kubectl apply -f chess-live-secrets.yaml
+        kubectl apply -f chess_live_secrets.yaml
         helm install analyzer ./chess-live-helm/analyzer
         helm install api ./chess-live-helm/api
         helm install front ./chess-live-helm/front
@@ -99,7 +99,7 @@
 
     - name: Apply Ingress resource for chess-live
       shell: |
-        kubectl apply -f chess-live-ingress.yaml
+        kubectl apply -f chess_live_ingress.yaml
 
     - name: Apply cert-manager ClusterIssuer
       shell: |

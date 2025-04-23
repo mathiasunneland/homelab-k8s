@@ -302,7 +302,7 @@ resource "null_resource" "copy_files_to_control_vm" {
       "chmod 644 /home/hus/.ssh/id_ed25519.pub",
 
       # ansible files
-      "echo '${local.k8s_inventory}' > /home/hus/k8s-inventory.ini",
+      "echo '${local.k8s_inventory}' > /home/hus/k8s_inventory.ini",
       "echo '${file("${path.module}/ansible/k8s_all_playbook.yaml")}' > /home/hus/k8s_all_playbook.yaml",
       "echo '${file("${path.module}/ansible/k8s_master_p1_playbook.yaml")}' > /home/hus/k8s_master_p1_playbook.yaml",
       "echo '${local.k8s_workers_playbook}' > /home/hus/k8s_workers_playbook.yaml",
@@ -372,10 +372,10 @@ resource "null_resource" "ansible_setup" {
 
   provisioner "remote-exec" {
     inline = [
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s-inventory.ini /home/hus/k8s-all-playbook.yaml",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s-inventory.ini /home/hus/k8s-master-p1-playbook.yaml",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s-inventory.ini /home/hus/k8s-workers-playbook.yaml",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s-inventory.ini /home/hus/k8s-master-p2-playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s_inventory.ini /home/hus/k8s_all_playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s_inventory.ini /home/hus/k8s_master_p1_playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s_inventory.ini /home/hus/k8s_workers_playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s_inventory.ini /home/hus/k8s_master_p2_playbook.yaml",
     ]
 
     connection {

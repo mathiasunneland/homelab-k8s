@@ -31,5 +31,6 @@ coverage.txt
 # Terraform
 /.terraform
 *.tfvars
+terraform.tfvars
 *.hcl
 *.tfstate

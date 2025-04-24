@@ -225,3 +225,9 @@ variable "chess_live_front_port" {
   type        = number
   sensitive   = true
 }
+
+variable "encryption_key1" {
+  description = "secret for key1 to encryption config"
+  type        = string
+  sensitive   = true
+}

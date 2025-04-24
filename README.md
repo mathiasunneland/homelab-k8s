@@ -31,6 +31,7 @@ The code needs these changes for the project to work:
 
 The Proxmox host needs these changes for the project to work:
 
+- The control-vm public key needs to be added to authorized_keys in ~/.ssh
 - The local-storage on Proxmox needs to support snippets, so run this and make sure it does:
 
 ```bash

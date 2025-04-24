@@ -3,7 +3,7 @@
   tasks:
     - name: Setup cluster
       shell: |
-        kubeadm init
+        kubeadm init --config="/home/hus/kubeadm_config.yaml"
         mkdir -p /home/hus/.kube
         cp /etc/kubernetes/admin.conf /home/hus/.kube/config
         chown hus:hus /home/hus/.kube/config

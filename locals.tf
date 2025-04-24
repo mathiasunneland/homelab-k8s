@@ -92,4 +92,8 @@ locals {
   redis_values = templatefile("${path.module}/helm/redis_values.yaml", {
     redis_password = var.redis_password
   })
+
+  encryption_config = templatefile("${path.module}/kubeadm/encryption_config.yaml", {
+    encryption_key1 = var.encryption_key1
+  })
 }

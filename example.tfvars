@@ -53,3 +53,5 @@ k8s_worker_3_ip = ""
 
 chess_live_api_port = 0
 chess_live_front_port = 0
+
+encryption_key1 = ""

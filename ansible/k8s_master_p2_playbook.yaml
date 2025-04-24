@@ -69,11 +69,11 @@
         kubectl apply -f imagepull_secrets.yaml
         GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone git@github.com:${github_username}/chess-live-helm.git
         kubectl apply -f chess_live_secrets.yaml
-        helm install analyzer ./chess-live-helm/analyzer
-        helm install api ./chess-live-helm/api
-        helm install front ./chess-live-helm/front
-        helm install loader ./chess-live-helm/loader
-        helm install migrate ./chess-live-helm/migrate
+        helm install chess-live-analyzer ./chess-live-helm/analyzer
+        helm install chess-live-api ./chess-live-helm/api
+        helm install chess-live-front ./chess-live-helm/front
+        helm install chess-live-loader ./chess-live-helm/loader
+        helm install chess-live-migrate ./chess-live-helm/migrate
 
     - name: Install python3.10-venv
       become: true

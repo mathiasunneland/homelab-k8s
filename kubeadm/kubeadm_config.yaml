@@ -13,6 +13,8 @@ kind: KubeletConfiguration
 authentication:
   anonymous:
     enabled: false
+authorization:
+  mode: Webhook
 ---
 apiVersion: apiserver.config.k8s.io/v1
 kind: AuthorizationConfiguration

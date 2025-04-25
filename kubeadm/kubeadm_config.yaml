@@ -6,9 +6,18 @@ kind: ClusterConfiguration
 apiServer:
   extraArgs:
     encryption-provider-config: "/home/hus/encryption_config.yaml"
+    enable-admission-plugins: "NodeRestriction"
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 authentication:
   anonymous:
     enabled: false
+---
+apiVersion: apiserver.config.k8s.io/v1
+kind: AuthorizationConfiguration
+authorizers:
+  - type: Node
+    name: node
+  - type: RBAC
+    name: rbac

@@ -338,10 +338,6 @@ resource "null_resource" "copy_files_to_k8s_master" {
       "echo '${local.chess_live_secrets}' > /home/hus/chess_live_secrets.yaml",
       "echo '${local.imagepull_secrets}' > /home/hus/imagepull_secrets.yaml",
 
-      # kubeadm files
-      "echo '${file("${path.module}/kubeadm/kubeadm_config.yaml")}' > /home/hus/kubeadm_config.yaml",
-      "echo '${local.encryption_config}' > /home/hus/encryption_config.yaml",
-
       # helm files
       "echo '${local.grafana_values}' > /home/hus/grafana_values.yaml",
       "echo '${file("${path.module}/helm/loki_values.yaml")}' > /home/hus/loki_values.yaml",

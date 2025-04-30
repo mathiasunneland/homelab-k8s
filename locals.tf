@@ -92,4 +92,14 @@ locals {
   redis_values = templatefile("${path.module}/helm/redis_values.yaml", {
     redis_password = var.redis_password
   })
+
+  kubeadm_init_config = templatefile("${path.module}/kubeadm/kubeadm_init_config.yaml", {
+    kubeadm_token = var.kubeadm_token
+    k8s_master_ip = var.k8s_master_ip
+  })
+
+  kubeadm_join_config = templatefile("${path.module}/kubeadm/kubeadm_join_config.yaml", {
+    kubeadm_token = var.kubeadm_token
+    k8s_master_ip = var.k8s_master_ip
+  })
 }

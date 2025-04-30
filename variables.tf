@@ -225,3 +225,9 @@ variable "chess_live_front_port" {
   type        = number
   sensitive   = true
 }
+
+variable "kubeadm_token" {
+  description = "token for kubeadm"
+  type        = string
+  sensitive   = true
+}

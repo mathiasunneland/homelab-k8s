@@ -1,0 +1,22 @@
+apiVersion: kubeadm.k8s.io/v1beta4
+caCertPath: /etc/kubernetes/pki/ca.crt
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: ${k8s_master_ip}:6443
+    token: ${kubeadm_token}
+    unsafeSkipCAVerification: true
+  tlsBootstrapToken: ${kubeadm_token}
+kind: JoinConfiguration
+nodeRegistration:
+  criSocket: unix:///var/run/containerd/containerd.sock
+  imagePullPolicy: IfNotPresent
+  imagePullSerial: true
+  taints: null
+timeouts:
+  controlPlaneComponentHealthCheck: 4m0s
+  discovery: 5m0s
+  etcdAPICall: 2m0s
+  kubeletHealthCheck: 4m0s
+  kubernetesAPICall: 1m0s
+  tlsBootstrap: 5m0s
+  upgradeManifests: 5m0s

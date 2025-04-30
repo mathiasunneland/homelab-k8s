@@ -346,6 +346,9 @@ resource "null_resource" "copy_files_to_k8s_master" {
       "echo '${local.postgres_values}' > /home/hus/postgres_values.yaml",
       "echo '${local.redis_values}' > /home/hus/redis_values.yaml",
 
+      # kubeadm files
+      "echo '${local.kubeadm_init_config}' > /home/hus/kubeadm_init_config.yaml",
+
       # service files
       "echo '${file("${path.module}/service/helm_upgrade.service")}' > /home/hus/helm_upgrade.service"
     ]
@@ -353,6 +356,66 @@ resource "null_resource" "copy_files_to_k8s_master" {
     connection {
       type        = "ssh"
       host        = var.k8s_master_ip
+      user        = "hus"
+      private_key = var.private_key_control_vm
+    }
+  }
+}
+
+resource "null_resource" "copy_files_to_k8s_worker_1" {
+  depends_on = [
+    proxmox_virtual_environment_vm.k8s_worker_1
+  ]
+
+  provisioner "remote-exec" {
+    inline = [
+      # kubeadm files
+      "echo '${local.kubeadm_join_config}' > /home/hus/kubeadm_join_config.yaml",
+    ]
+
+    connection {
+      type        = "ssh"
+      host        = var.k8s_worker_1_ip
+      user        = "hus"
+      private_key = var.private_key_control_vm
+    }
+  }
+}
+
+resource "null_resource" "copy_files_to_k8s_worker_2" {
+  depends_on = [
+    proxmox_virtual_environment_vm.k8s_worker_2
+  ]
+
+  provisioner "remote-exec" {
+    inline = [
+      # kubeadm files
+      "echo '${local.kubeadm_join_config}' > /home/hus/kubeadm_join_config.yaml",
+    ]
+
+    connection {
+      type        = "ssh"
+      host        = var.k8s_worker_2_ip
+      user        = "hus"
+      private_key = var.private_key_control_vm
+    }
+  }
+}
+
+resource "null_resource" "copy_files_to_k8s_worker_3" {
+  depends_on = [
+    proxmox_virtual_environment_vm.k8s_worker_3
+  ]
+
+  provisioner "remote-exec" {
+    inline = [
+      # kubeadm files
+      "echo '${local.kubeadm_join_config}' > /home/hus/kubeadm_join_config.yaml",
+    ]
+
+    connection {
+      type        = "ssh"
+      host        = var.k8s_worker_3_ip
       user        = "hus"
       private_key = var.private_key_control_vm
     }

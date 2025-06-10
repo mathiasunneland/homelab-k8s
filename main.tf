@@ -193,7 +193,7 @@ resource "proxmox_virtual_environment_vm" "k8s_worker_1" {
   }
 
   memory {
-    dedicated = 2048
+    dedicated = 4096
   }
 
   cpu {
@@ -229,7 +229,7 @@ resource "proxmox_virtual_environment_vm" "k8s_worker_2" {
   }
 
   memory {
-    dedicated = 2048
+    dedicated = 4096
   }
 
   cpu {
@@ -265,7 +265,7 @@ resource "proxmox_virtual_environment_vm" "k8s_worker_3" {
   }
 
   memory {
-    dedicated = 2048
+    dedicated = 4096
   }
 
   cpu {
@@ -302,11 +302,11 @@ resource "null_resource" "copy_files_to_control_vm" {
       "chmod 644 /home/hus/.ssh/id_ed25519.pub",
 
       # ansible files
-      "echo '${local.k8s_inventory}' > /home/hus/k8s_inventory.ini",
-      "echo '${file("${path.module}/ansible/k8s_all_playbook.yaml")}' > /home/hus/k8s_all_playbook.yaml",
-      "echo '${file("${path.module}/ansible/k8s_master_p1_playbook.yaml")}' > /home/hus/k8s_master_p1_playbook.yaml",
-      "echo '${local.k8s_workers_playbook}' > /home/hus/k8s_workers_playbook.yaml",
-      "echo '${local.k8s_master_p2_playbook}' > /home/hus/k8s_master_p2_playbook.yaml"
+      "echo '${local.k8s_inventory}' > /home/hus/setup/k8s_inventory.ini",
+      "echo '${file("${path.module}/ansible/k8s_all_playbook.yaml")}' > /home/hus/setup/k8s_all_playbook.yaml",
+      "echo '${file("${path.module}/ansible/k8s_master_p1_playbook.yaml")}' > /home/hus/setup/k8s_master_p1_playbook.yaml",
+      "echo '${local.k8s_workers_playbook}' > /home/hus/setup/k8s_workers_playbook.yaml",
+      "echo '${local.k8s_master_p2_playbook}' > /home/hus/setup/k8s_master_p2_playbook.yaml"
     ]
 
     connection {
@@ -332,25 +332,25 @@ resource "null_resource" "copy_files_to_k8s_master" {
       "chmod 644 /home/hus/.ssh/id_ed25519.pub",
 
       # kubectl files
-      "echo '${local.cluster_issuer}' > /home/hus/clusterissuer.yaml",
-      "echo '${local.chess_live_ingress}' > /home/hus/chess_live_ingress.yaml",
-      "echo '${local.metallb_config}' > /home/hus/metallb_config.yaml",
-      "echo '${local.chess_live_secrets}' > /home/hus/chess_live_secrets.yaml",
-      "echo '${local.imagepull_secrets}' > /home/hus/imagepull_secrets.yaml",
+      "echo '${local.cluster_issuer}' > /home/hus/setup/clusterissuer.yaml",
+      "echo '${local.chess_live_ingress}' > /home/hus/setup/chess_live_ingress.yaml",
+      "echo '${local.metallb_config}' > /home/hus/setup/metallb_config.yaml",
+      "echo '${local.chess_live_secrets}' > /home/hus/setup/chess_live_secrets.yaml",
+      "echo '${local.imagepull_secrets}' > /home/hus/setup/imagepull_secrets.yaml",
 
       # helm files
-      "echo '${local.grafana_values}' > /home/hus/grafana_values.yaml",
-      "echo '${file("${path.module}/helm/loki_values.yaml")}' > /home/hus/loki_values.yaml",
-      "echo '${file("${path.module}/helm/prometheus_values.yaml")}' > /home/hus/prometheus_values.yaml",
-      "echo '${local.nginx_values}' > /home/hus/nginx_values.yaml",
-      "echo '${local.postgres_values}' > /home/hus/postgres_values.yaml",
-      "echo '${local.redis_values}' > /home/hus/redis_values.yaml",
+      "echo '${local.grafana_values}' > /home/hus/setup/grafana_values.yaml",
+      "echo '${file("${path.module}/helm/loki_values.yaml")}' > /home/hus/setup/loki_values.yaml",
+      "echo '${file("${path.module}/helm/prometheus_values.yaml")}' > /home/hus/setup/prometheus_values.yaml",
+      "echo '${local.nginx_values}' > /home/hus/setup/nginx_values.yaml",
+      "echo '${local.postgres_values}' > /home/hus/setup/postgres_values.yaml",
+      "echo '${local.redis_values}' > /home/hus/setup/redis_values.yaml",
 
       # kubeadm files
-      "echo '${local.kubeadm_init_config}' > /home/hus/kubeadm_init_config.yaml",
+      "echo '${local.kubeadm_init_config}' > /home/hus/setup/kubeadm_init_config.yaml",
 
       # service files
-      "echo '${file("${path.module}/service/helm_upgrade.service")}' > /home/hus/helm_upgrade.service"
+      "echo '${file("${path.module}/service/helm_upgrade.service")}' > /home/hus/setup/helm_upgrade.service"
     ]
 
     connection {
@@ -370,7 +370,7 @@ resource "null_resource" "copy_files_to_k8s_worker_1" {
   provisioner "remote-exec" {
     inline = [
       # kubeadm files
-      "echo '${local.kubeadm_join_config}' > /home/hus/kubeadm_join_config.yaml",
+      "echo '${local.kubeadm_join_config}' > /home/hus/setup/kubeadm_join_config.yaml",
     ]
 
     connection {
@@ -390,7 +390,7 @@ resource "null_resource" "copy_files_to_k8s_worker_2" {
   provisioner "remote-exec" {
     inline = [
       # kubeadm files
-      "echo '${local.kubeadm_join_config}' > /home/hus/kubeadm_join_config.yaml",
+      "echo '${local.kubeadm_join_config}' > /home/hus/setup/kubeadm_join_config.yaml",
     ]
 
     connection {
@@ -410,7 +410,7 @@ resource "null_resource" "copy_files_to_k8s_worker_3" {
   provisioner "remote-exec" {
     inline = [
       # kubeadm files
-      "echo '${local.kubeadm_join_config}' > /home/hus/kubeadm_join_config.yaml",
+      "echo '${local.kubeadm_join_config}' > /home/hus/setup/kubeadm_join_config.yaml",
     ]
 
     connection {
@@ -435,10 +435,10 @@ resource "null_resource" "ansible_setup" {
 
   provisioner "remote-exec" {
     inline = [
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s_inventory.ini /home/hus/k8s_all_playbook.yaml",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s_inventory.ini /home/hus/k8s_master_p1_playbook.yaml",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s_inventory.ini /home/hus/k8s_workers_playbook.yaml",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/k8s_inventory.ini /home/hus/k8s_master_p2_playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/k8s_inventory.ini /home/hus/setup/k8s_all_playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/k8s_inventory.ini /home/hus/setup/k8s_master_p1_playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/k8s_inventory.ini /home/hus/setup/k8s_workers_playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/k8s_inventory.ini /home/hus/setup/k8s_master_p2_playbook.yaml",
     ]
 
     connection {

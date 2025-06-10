@@ -301,6 +301,8 @@ resource "null_resource" "copy_files_to_control_vm" {
       "chmod 600 /home/hus/.ssh/id_ed25519",
       "chmod 644 /home/hus/.ssh/id_ed25519.pub",
 
+      "mkdir /home/hus/setup",
+
       # ansible files
       "echo '${local.k8s_inventory}' > /home/hus/setup/k8s_inventory.ini",
       "echo '${file("${path.module}/ansible/k8s_all_playbook.yaml")}' > /home/hus/setup/k8s_all_playbook.yaml",
@@ -330,6 +332,8 @@ resource "null_resource" "copy_files_to_k8s_master" {
       "chmod 700 /home/hus/.ssh",
       "chmod 600 /home/hus/.ssh/id_ed25519",
       "chmod 644 /home/hus/.ssh/id_ed25519.pub",
+
+      "mkdir /home/hus/setup",
 
       # kubectl files
       "echo '${local.cluster_issuer}' > /home/hus/setup/clusterissuer.yaml",
@@ -369,6 +373,8 @@ resource "null_resource" "copy_files_to_k8s_worker_1" {
 
   provisioner "remote-exec" {
     inline = [
+      "mkdir /home/hus/setup",
+
       # kubeadm files
       "echo '${local.kubeadm_join_config}' > /home/hus/setup/kubeadm_join_config.yaml",
     ]
@@ -389,6 +395,8 @@ resource "null_resource" "copy_files_to_k8s_worker_2" {
 
   provisioner "remote-exec" {
     inline = [
+      "mkdir /home/hus/setup",
+
       # kubeadm files
       "echo '${local.kubeadm_join_config}' > /home/hus/setup/kubeadm_join_config.yaml",
     ]
@@ -409,6 +417,8 @@ resource "null_resource" "copy_files_to_k8s_worker_3" {
 
   provisioner "remote-exec" {
     inline = [
+      "mkdir /home/hus/setup",
+
       # kubeadm files
       "echo '${local.kubeadm_join_config}' > /home/hus/setup/kubeadm_join_config.yaml",
     ]

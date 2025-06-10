@@ -3,7 +3,7 @@
   tasks:
     - name: Setup cluster v1
       shell: |
-        kubeadm init --config=/home/hus/kubeadm_init_config.yaml
+        kubeadm init --config=/home/hus/setup/kubeadm_init_config.yaml
     - name: Setup cluster v2
       shell: |
         mkdir -p /home/hus/.kube

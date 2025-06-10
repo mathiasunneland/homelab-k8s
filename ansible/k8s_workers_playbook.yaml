@@ -3,4 +3,4 @@
   tasks:
     - name: Join worker nodes to the master
       shell: |
-        kubeadm join --config=/home/hus/kubeadm_join_config.yaml
+        kubeadm join --config=/home/hus/setup/kubeadm_join_config.yaml

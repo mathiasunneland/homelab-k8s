@@ -4,6 +4,7 @@
     - name: Install helm
       become: true
       shell: |
+        cd /home/hus/setup
         curl -LO https://get.helm.sh/helm-v3.17.3-linux-amd64.tar.gz
         tar -zxvf helm-v3.17.3-linux-amd64.tar.gz
         mv linux-amd64/helm /usr/local/bin/helm
@@ -31,12 +32,12 @@
         helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
         helm repo update
         kubectl create namespace ingress-nginx
-        helm install ingress-nginx ingress-nginx/ingress-nginx --values /home/hus/nginx_values.yaml --namespace ingress-nginx
+        helm install ingress-nginx ingress-nginx/ingress-nginx --values /home/hus/setup/nginx_values.yaml --namespace ingress-nginx
 
     - name: Install postgres and redis
       shell: |
-        helm install postgres oci://registry-1.docker.io/bitnamicharts/postgresql --values /home/hus/postgres_values.yaml
-        helm install redis oci://registry-1.docker.io/bitnamicharts/redis --values /home/hus/redis_values.yaml
+        helm install postgres oci://registry-1.docker.io/bitnamicharts/postgresql --values /home/hus/setup/postgres_values.yaml
+        helm install redis oci://registry-1.docker.io/bitnamicharts/redis --values /home/hus/setup/redis_values.yaml
 
     - name: Install cert-manager
       shell: |
@@ -50,25 +51,25 @@
         helm repo add grafana https://grafana.github.io/helm-charts
         helm repo update
         kubectl create namespace monitoring
-        helm install loki grafana/loki --values /home/hus/loki_values.yaml --namespace monitoring
+        helm install loki grafana/loki --values /home/hus/setup/loki_values.yaml --namespace monitoring
         helm install promtail grafana/promtail --namespace monitoring
         helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
         helm repo update
-        helm install prometheus prometheus-community/prometheus --values /home/hus/prometheus_values.yaml --namespace monitoring
+        helm install prometheus prometheus-community/prometheus --values /home/hus/setup/prometheus_values.yaml --namespace monitoring
 
     - name: Install Grafana
       shell: |
-        helm install grafana grafana/grafana --values /home/hus/grafana_values.yaml --namespace monitoring
+        helm install grafana grafana/grafana --values /home/hus/setup/grafana_values.yaml --namespace monitoring
 
     - name: Apply MetalLB config
       shell: |
-        kubectl apply -f metallb_config.yaml
+        kubectl apply -f /home/hus/setup/metallb_config.yaml
 
     - name: Setup chess-live
       shell: |
-        kubectl apply -f imagepull_secrets.yaml
+        kubectl apply -f /home/hus/setup/imagepull_secrets.yaml
         GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone git@github.com:${github_username}/chess-live-helm.git
-        kubectl apply -f chess_live_secrets.yaml
+        kubectl apply -f /home/hus/setup/chess_live_secrets.yaml
         helm install chess-live-analyzer ./chess-live-helm/analyzer
         helm install chess-live-api ./chess-live-helm/api
         helm install chess-live-front ./chess-live-helm/front
@@ -87,7 +88,7 @@
         python3 -m venv /home/hus/chess-live-helm/venv
         /home/hus/chess-live-helm/venv/bin/pip install fastapi uvicorn
         chmod +x /home/hus/chess-live-helm/helm-upgrade.py
-        mv /home/hus/helm_upgrade.service /lib/systemd/system/helm_upgrade.service
+        mv /home/hus/setup/helm_upgrade.service /lib/systemd/system/helm_upgrade.service
         chmod 0644 /lib/systemd/system/helm_upgrade.service
 
     - name: Enable, start, reload helm_upgrade service
@@ -99,8 +100,8 @@
 
     - name: Apply Ingress resource for chess-live
       shell: |
-        kubectl apply -f chess_live_ingress.yaml
+        kubectl apply -f /home/hus/setup/chess_live_ingress.yaml
 
     - name: Apply cert-manager ClusterIssuer
       shell: |
-        kubectl apply -f clusterissuer.yaml
+        kubectl apply -f /home/hus/setup/clusterissuer.yaml

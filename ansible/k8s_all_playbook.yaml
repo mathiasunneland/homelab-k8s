@@ -13,6 +13,7 @@
         apt-mark hold kubelet kubeadm kubectl
     - name: Install containerd
       shell: |
+        cd /home/hus/setup
         curl -LO https://github.com/containerd/containerd/releases/download/v2.0.4/containerd-2.0.4-linux-amd64.tar.gz
         tar Cxzvf /usr/local containerd-2.0.4-linux-amd64.tar.gz
         curl -o /lib/systemd/system/containerd.service https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
@@ -20,11 +21,13 @@
         systemctl enable --now containerd
     - name: Install runc
       shell: |
+        cd /home/hus/setup
         curl -LO https://github.com/opencontainers/runc/releases/download/v1.2.6/runc.amd64
         install -m 755 runc.amd64 /usr/local/sbin/runc
         chmod +x /usr/local/sbin/runc
     - name: Install CNI plugins
       shell: |
+        cd /home/hus/setup
         curl -LO https://github.com/containernetworking/plugins/releases/download/v1.6.2/cni-plugins-linux-amd64-v1.6.2.tgz
         mkdir -p /opt/cni/bin
         tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.6.2.tgz

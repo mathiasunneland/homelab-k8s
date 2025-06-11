@@ -304,7 +304,8 @@ resource "null_resource" "copy_files_to_control_vm" {
       "mkdir /home/hus/setup",
 
       # ansible files
-      "echo '${local.k8s_inventory}' > /home/hus/setup/k8s_inventory.ini",
+      "echo '${local.homelab_inventory}' > /home/hus/setup/homelab_inventory.ini",
+      "echo '${file("${path.module}/ansible/update_kernel_playbook.yaml")}' > /home/hus/setup/update_kernel_playbook.yaml",
       "echo '${file("${path.module}/ansible/k8s_all_playbook.yaml")}' > /home/hus/setup/k8s_all_playbook.yaml",
       "echo '${file("${path.module}/ansible/k8s_master_p1_playbook.yaml")}' > /home/hus/setup/k8s_master_p1_playbook.yaml",
       "echo '${local.k8s_workers_playbook}' > /home/hus/setup/k8s_workers_playbook.yaml",
@@ -349,6 +350,7 @@ resource "null_resource" "copy_files_to_k8s_master" {
       "echo '${local.nginx_values}' > /home/hus/setup/nginx_values.yaml",
       "echo '${local.postgres_values}' > /home/hus/setup/postgres_values.yaml",
       "echo '${local.redis_values}' > /home/hus/setup/redis_values.yaml",
+      "echo '${file("${path.module}/ansible/update_helm_charts_playbook.yaml")}' > /home/hus/setup/update_helm_charts_playbook.yaml",
 
       # kubeadm files
       "echo '${local.kubeadm_init_config}' > /home/hus/setup/kubeadm_init_config.yaml",
@@ -445,10 +447,10 @@ resource "null_resource" "ansible_setup" {
 
   provisioner "remote-exec" {
     inline = [
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/k8s_inventory.ini /home/hus/setup/k8s_all_playbook.yaml",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/k8s_inventory.ini /home/hus/setup/k8s_master_p1_playbook.yaml",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/k8s_inventory.ini /home/hus/setup/k8s_workers_playbook.yaml",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/k8s_inventory.ini /home/hus/setup/k8s_master_p2_playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/homelab_inventory.ini /home/hus/setup/k8s_all_playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/homelab_inventory.ini /home/hus/setup/k8s_master_p1_playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/homelab_inventory.ini /home/hus/setup/k8s_workers_playbook.yaml",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/homelab_inventory.ini /home/hus/setup/k8s_master_p2_playbook.yaml",
     ]
 
     connection {

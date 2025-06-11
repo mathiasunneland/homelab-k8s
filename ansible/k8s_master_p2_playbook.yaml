@@ -13,7 +13,7 @@
       shell: |
         helm repo add cilium https://helm.cilium.io
         helm repo update
-        helm install cilium cilium/cilium --version 1.17.3 --namespace kube-system
+        helm install cilium cilium/cilium --namespace kube-system
 
     - name: Install local-path-provisioner
       shell: |
@@ -44,7 +44,7 @@
         helm repo add jetstack https://charts.jetstack.io
         helm repo update
         kubectl create namespace cert-manager
-        helm install cert-manager jetstack/cert-manager --version v1.17.0 --set crds.enabled=true --namespace cert-manager
+        helm install cert-manager jetstack/cert-manager --set crds.enabled=true --namespace cert-manager
 
     - name: Install loki, promtail and prometheus
       shell: |

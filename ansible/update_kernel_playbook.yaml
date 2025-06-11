@@ -1,0 +1,8 @@
+- hosts: homelab_all
+  become: true
+  tasks:
+    - name: Update kernel
+      become: true
+      shell: |
+        apt update
+        apt upgrade

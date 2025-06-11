@@ -29,7 +29,9 @@ locals {
     public_key_user2      = var.public_key_user2
   })
 
-  k8s_inventory = templatefile("${path.module}/ansible/k8s_inventory.ini", {
+  homelab_inventory = templatefile("${path.module}/ansible/homelab_inventory.ini", {
+    tailscale_vm_ip = var.tailscale_vm_ip
+    control_vm_ip = var.control_vm_ip
     k8s_master_ip   = var.k8s_master_ip
     k8s_worker_1_ip = var.k8s_worker_1_ip
     k8s_worker_2_ip = var.k8s_worker_2_ip

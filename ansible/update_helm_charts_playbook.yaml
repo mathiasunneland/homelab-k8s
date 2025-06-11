@@ -1,0 +1,17 @@
+- hosts: k8s_master
+  become: true
+  tasks:
+    - name: Update helm charts
+      become: true
+      shell: |
+        helm repo update
+        helm upgrade cilium cilium/cilium --namespace kube-system
+        helm upgrade metallb metallb/metallb --namespace metallb-system
+        helm upgrade ingress-nginx ingress-nginx/ingress-nginx --values /home/hus/setup/nginx_values.yaml --namespace ingress-nginx
+        helm upgrade postgres oci://registry-1.docker.io/bitnamicharts/postgresql --values /home/hus/setup/postgres_values.yaml
+        helm upgrade redis oci://registry-1.docker.io/bitnamicharts/redis --values /home/hus/setup/redis_values.yaml
+        helm upgrade cert-manager jetstack/cert-manager --set crds.enabled=true --namespace cert-manager
+        helm upgrade loki grafana/loki --values /home/hus/setup/loki_values.yaml --namespace monitoring
+        helm upgrade promtail grafana/promtail --namespace monitoring
+        helm upgrade prometheus prometheus-community/prometheus --values /home/hus/setup/prometheus_values.yaml --namespace monitoring
+        helm upgrade grafana grafana/grafana --values /home/hus/setup/grafana_values.yaml --namespace monitoring

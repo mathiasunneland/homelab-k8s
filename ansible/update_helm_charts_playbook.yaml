@@ -2,7 +2,7 @@
   become: true
   tasks:
     - name: Update helm charts
-      become: true
+      become: false
       shell: |
         helm repo update
         helm upgrade cilium cilium/cilium --namespace kube-system

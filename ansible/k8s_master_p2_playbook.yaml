@@ -5,9 +5,9 @@
       become: true
       shell: |
         cd /home/hus/setup
-        curl -LO https://get.helm.sh/helm-v3.17.3-linux-amd64.tar.gz
-        tar -zxvf helm-v3.17.3-linux-amd64.tar.gz
-        mv linux-amd64/helm /usr/local/bin/helm
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        chmod 700 get_helm.sh
+        ./get_helm.sh
 
     - name: Install cilium
       shell: |
@@ -44,7 +44,7 @@
         helm repo add jetstack https://charts.jetstack.io
         helm repo update
         kubectl create namespace cert-manager
-        helm install cert-manager jetstack/cert-manager --set crds.enabled=true --namespace cert-manager
+        helm install cert-manager jetstack/cert-manager --namespace cert-manager
 
     - name: Install loki, promtail and prometheus
       shell: |

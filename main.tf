@@ -9,6 +9,14 @@ resource "proxmox_virtual_environment_file" "control_cloud_init" {
   }
 }
 
+resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
+  content_type = "iso"
+  datastore_id = "local"
+  node_name    = "pve"
+
+  url = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+}
+
 resource "proxmox_virtual_environment_file" "k8s_master_cloud_init" {
   content_type = "snippets"
   datastore_id = "local"
@@ -98,14 +106,6 @@ resource "proxmox_virtual_environment_vm" "ubuntu_template" {
   network_device {
     bridge = "vmbr0"
   }
-}
-
-resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
-  content_type = "iso"
-  datastore_id = "local"
-  node_name    = "pve"
-
-  url = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
 }
 
 resource "proxmox_virtual_environment_vm" "control_vm" {

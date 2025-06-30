@@ -64,6 +64,7 @@ resource "proxmox_virtual_environment_file" "k8s_worker_3_cloud_init" {
 
 resource "proxmox_virtual_environment_vm" "ubuntu_template" {
   name      = "ubuntu-template"
+  vm_id     = 200
   node_name = "pve"
 
   template = true
@@ -110,6 +111,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_template" {
 
 resource "proxmox_virtual_environment_vm" "control_vm" {
   name      = "control-vm"
+  vm_id     = 201
   node_name = "pve"
 
   clone {
@@ -146,6 +148,7 @@ resource "proxmox_virtual_environment_vm" "control_vm" {
 
 resource "proxmox_virtual_environment_vm" "k8s_master" {
   name      = "k8s-master"
+  vm_id     = 202
   node_name = "pve"
 
   clone {
@@ -182,6 +185,7 @@ resource "proxmox_virtual_environment_vm" "k8s_master" {
 
 resource "proxmox_virtual_environment_vm" "k8s_worker_1" {
   name      = "k8s-worker-1"
+  vm_id     = 203
   node_name = "pve"
 
   clone {
@@ -218,6 +222,7 @@ resource "proxmox_virtual_environment_vm" "k8s_worker_1" {
 
 resource "proxmox_virtual_environment_vm" "k8s_worker_2" {
   name      = "k8s-worker-2"
+  vm_id     = 204
   node_name = "pve"
 
   clone {
@@ -254,6 +259,7 @@ resource "proxmox_virtual_environment_vm" "k8s_worker_2" {
 
 resource "proxmox_virtual_environment_vm" "k8s_worker_3" {
   name      = "k8s-worker-3"
+  vm_id     = 205
   node_name = "pve"
 
   clone {

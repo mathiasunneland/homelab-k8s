@@ -335,8 +335,8 @@ resource "null_resource" "copy_files_to_k8s_master" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo '${var.private_key_github}' > /home/hus/.ssh/id_ed25519",
-      "echo '${var.public_key_github}' > /home/hus/.ssh/id_ed25519.pub",
+      "echo '${var.private_key_control_vm}' > /home/hus/.ssh/id_ed25519",
+      "echo '${var.public_key_control_vm}' > /home/hus/.ssh/id_ed25519.pub",
       "chmod 700 /home/hus/.ssh",
       "chmod 600 /home/hus/.ssh/id_ed25519",
       "chmod 644 /home/hus/.ssh/id_ed25519.pub",

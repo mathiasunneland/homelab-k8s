@@ -28,18 +28,6 @@ variable "public_key_control_vm" {
   sensitive   = true
 }
 
-variable "private_key_github" {
-  description = "The github private key"
-  type        = string
-  sensitive   = true
-}
-
-variable "public_key_github" {
-  description = "The github public key"
-  type        = string
-  sensitive   = true
-}
-
 variable "public_key_user1" {
   description = "The user1 public key"
   type        = string

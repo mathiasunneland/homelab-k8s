@@ -2,7 +2,6 @@
   become: true
   tasks:
     - name: Install kubernetes
-      become: true
       shell: |
         apt-get update
         apt-get install -y apt-transport-https ca-certificates curl gpg
@@ -32,7 +31,6 @@
         mkdir -p /opt/cni/bin
         tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.6.2.tgz
     - name: Enable IPv4 forwarding
-      become: true
       shell: |
         sed -i '/^net.ipv4.ip_forward/d' /etc/sysctl.conf
         echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf

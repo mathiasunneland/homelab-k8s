@@ -1,8 +1,8 @@
 # k8s-master-p2-playbook.yaml
 - hosts: k8s_master
+  become: true
   tasks:
     - name: Install helm
-      become: true
       shell: |
         cd /home/hus/setup
         curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
@@ -68,7 +68,7 @@
     - name: Setup chess-live
       shell: |
         kubectl apply -f /home/hus/setup/imagepull_secrets.yaml
-        GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone git@github.com:${github_username}/chess-live-helm.git
+        GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone git@github.com:mathiasunneland/chess-live-helm.git
         kubectl apply -f /home/hus/setup/chess_live_secrets.yaml
         helm install chess-live-analyzer ./chess-live-helm/analyzer
         helm install chess-live-api ./chess-live-helm/api
@@ -77,13 +77,11 @@
         helm install chess-live-migrate ./chess-live-helm/migrate
 
     - name: Install python3.10-venv
-      become: true
       shell: |
         apt update
         apt install -y python3.10-venv
 
     - name: Setup systemd service for helm_upgrade
-      become: true
       shell: |
         python3 -m venv /home/hus/chess-live-helm/venv
         /home/hus/chess-live-helm/venv/bin/pip install fastapi uvicorn
@@ -92,7 +90,6 @@
         chmod 0644 /lib/systemd/system/helm_upgrade.service
 
     - name: Enable, start, reload helm_upgrade service
-      become: true
       shell: |
         systemctl daemon-reload
         systemctl start helm_upgrade.service

@@ -214,7 +214,7 @@ resource "proxmox_virtual_environment_vm" "k8s_worker" {
 #       "mkdir /home/hus/setup",
 #
 #       # ansible files
-#       "echo '${local.homelab_inventory}' > /home/hus/setup/homelab_inventory.ini",
+#       "echo '${local.homelab_inventory}' > /home/hus/setup/inventory.ini",
 #       "echo '${file("${path.module}/ansible/update_kernel_playbook.yaml")}' > /home/hus/setup/update_kernel_playbook.yaml",
 #       "echo '${file("${path.module}/ansible/update_helm_charts_playbook.yaml")}' > /home/hus/setup/update_helm_charts_playbook.yaml",
 #       "echo '${file("${path.module}/ansible/k8s_all_playbook.yaml")}' > /home/hus/setup/k8s_all_playbook.yaml",
@@ -311,10 +311,10 @@ resource "proxmox_virtual_environment_vm" "k8s_worker" {
 #
 #   provisioner "remote-exec" {
 #     inline = [
-#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/homelab_inventory.ini /home/hus/setup/k8s_all_playbook.yaml",
-#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/homelab_inventory.ini /home/hus/setup/k8s_master_p1_playbook.yaml",
-#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/homelab_inventory.ini /home/hus/setup/k8s_workers_playbook.yaml",
-#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/homelab_inventory.ini /home/hus/setup/k8s_master_p2_playbook.yaml",
+#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.ini /home/hus/setup/k8s_all_playbook.yaml",
+#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.ini /home/hus/setup/k8s_master_p1_playbook.yaml",
+#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.ini /home/hus/setup/k8s_workers_playbook.yaml",
+#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.ini /home/hus/setup/k8s_master_p2_playbook.yaml",
 #     ]
 #
 #     connection {

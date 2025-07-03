@@ -30,8 +30,7 @@ coverage.txt
 
 # Terraform
 /.terraform
-*.tfvars
-terraform.tfvars
+terraform/terraform.tfvars
 *.hcl
 *.tfstate
 .terraform.tfstate.lock.info

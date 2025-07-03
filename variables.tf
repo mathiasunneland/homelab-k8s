@@ -82,20 +82,8 @@ variable "k8s_master_ip" {
   sensitive   = true
 }
 
-variable "k8s_worker_1_ip" {
-  description = "k8s-worker-1 ip"
-  type        = string
-  sensitive   = true
-}
-
-variable "k8s_worker_2_ip" {
-  description = "k8s-worker-2 ip"
-  type        = string
-  sensitive   = true
-}
-
-variable "k8s_worker_3_ip" {
-  description = "k8s-worker-3 ip"
+variable "k8s_worker_ip_start" {
+  description = "k8s-master ip start"
   type        = string
   sensitive   = true
 }

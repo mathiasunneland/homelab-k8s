@@ -11,19 +11,7 @@ locals {
     public_key_user2      = var.public_key_user2
   })
 
-  k8s_worker_1_cloud_init = templatefile("${path.module}/cloud-init/k8s_worker_1_cloud_init.yaml", {
-    public_key_control_vm = var.public_key_control_vm
-    public_key_user1      = var.public_key_user1
-    public_key_user2      = var.public_key_user2
-  })
-
-  k8s_worker_2_cloud_init = templatefile("${path.module}/cloud-init/k8s_worker_2_cloud_init.yaml", {
-    public_key_control_vm = var.public_key_control_vm
-    public_key_user1      = var.public_key_user1
-    public_key_user2      = var.public_key_user2
-  })
-
-  k8s_worker_3_cloud_init = templatefile("${path.module}/cloud-init/k8s_worker_3_cloud_init.yaml", {
+  k8s_worker_cloud_init = templatefile("${path.module}/cloud-init/k8s_worker_cloud_init.yaml", {
     public_key_control_vm = var.public_key_control_vm
     public_key_user1      = var.public_key_user1
     public_key_user2      = var.public_key_user2
@@ -33,9 +21,6 @@ locals {
     tailscale_vm_ip = var.tailscale_vm_ip
     control_vm_ip = var.control_vm_ip
     k8s_master_ip   = var.k8s_master_ip
-    k8s_worker_1_ip = var.k8s_worker_1_ip
-    k8s_worker_2_ip = var.k8s_worker_2_ip
-    k8s_worker_3_ip = var.k8s_worker_3_ip
   })
 
   k8s_master_p2_playbook = templatefile("${path.module}/ansible/k8s_master_p2_playbook.yaml", {

@@ -1,4 +1,0 @@
-auth:
-  username: ${postgres_username}
-  password: ${postgres_password}
-  database: ${postgres_database}

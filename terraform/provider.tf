@@ -13,6 +13,6 @@ provider "proxmox" {
   insecure  = true
   ssh {
     username = "root"
-    private_key = var.private_key_control_vm
+    private_key = file(var.ssh_private_key_path)
   }
 }

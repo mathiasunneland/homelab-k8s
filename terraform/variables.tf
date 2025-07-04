@@ -16,16 +16,10 @@ variable "pm_api_token" {
   sensitive   = true
 }
 
-variable "private_key_control_vm" {
-  description = "The control-vm private key"
-  type        = string
-  sensitive   = true
-}
-
-variable "public_key_control_vm" {
-  description = "The control-vm public key"
-  type        = string
-  sensitive   = true
+variable "ssh_private_key_path" {
+  description = "ssh private key path"
+  type    = string
+  sensitive = true
 }
 
 variable "public_key_user1" {
@@ -46,22 +40,10 @@ variable "gateway_ip" {
   sensitive   = true
 }
 
-variable "tailscale_vm_ip" {
-  description = "tailscale-vm ip"
-  type        = string
-  sensitive   = true
-}
-
-variable "control_vm_ip" {
-  description = "control-vm ip"
-  type        = string
-  sensitive   = true
-}
-
 variable "k8s_master_ip" {
   description = "k8s-master ip"
   type        = string
-  sensitive   = true
+  sensitive   = false
 }
 
 variable "k8s_worker_ip_start" {

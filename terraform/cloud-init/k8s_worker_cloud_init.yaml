@@ -7,7 +7,6 @@ users:
       - sudo
     shell: /bin/bash
     ssh_authorized_keys:
-      - ${public_key_control_vm}
       - ${public_key_user1}
       - ${public_key_user2}
     sudo: ALL=(ALL) NOPASSWD:ALL

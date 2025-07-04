@@ -1,14 +1,3 @@
-resource "proxmox_virtual_environment_file" "control_cloud_init" {
-  content_type = "snippets"
-  datastore_id = "local"
-  node_name    = "pve"
-
-  source_raw {
-    data      = local.control_cloud_init
-    file_name = "control_cloud_init.yaml"
-  }
-}
-
 resource "proxmox_virtual_environment_file" "k8s_master_cloud_init" {
   content_type = "snippets"
   datastore_id = "local"
@@ -83,43 +72,6 @@ resource "proxmox_virtual_environment_vm" "ubuntu_template" {
 
   network_device {
     bridge = "vmbr0"
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "control_vm" {
-  name      = "control-vm"
-  vm_id     = 201
-  node_name = "pve"
-
-  clone {
-    vm_id = proxmox_virtual_environment_vm.ubuntu_template.id
-  }
-
-  agent {
-    enabled = true
-  }
-
-  memory {
-    dedicated = 1024
-  }
-
-  cpu {
-    cores = 1
-  }
-
-  initialization {
-    dns {
-      servers = ["1.1.1.1"]
-    }
-
-    ip_config {
-      ipv4 {
-        address    = "${var.control_vm_ip}/24"
-        gateway    = var.gateway_ip
-      }
-    }
-
-    user_data_file_id = proxmox_virtual_environment_file.control_cloud_init.id
   }
 }
 
@@ -214,7 +166,7 @@ resource "proxmox_virtual_environment_vm" "k8s_worker" {
 #       "mkdir /home/hus/setup",
 #
 #       # ansible files
-#       "echo '${local.homelab_inventory}' > /home/hus/setup/inventory.ini",
+#       "echo '${local.homelab_inventory}' > /home/hus/setup/inventory.template",
 #       "echo '${file("${path.module}/ansible/update_kernel_playbook.yaml")}' > /home/hus/setup/update_kernel_playbook.yaml",
 #       "echo '${file("${path.module}/ansible/update_helm_charts_playbook.yaml")}' > /home/hus/setup/update_helm_charts_playbook.yaml",
 #       "echo '${file("${path.module}/ansible/k8s_all_playbook.yaml")}' > /home/hus/setup/k8s_all_playbook.yaml",
@@ -311,10 +263,10 @@ resource "proxmox_virtual_environment_vm" "k8s_worker" {
 #
 #   provisioner "remote-exec" {
 #     inline = [
-#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.ini /home/hus/setup/k8s_all_playbook.yaml",
-#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.ini /home/hus/setup/k8s_master_p1_playbook.yaml",
-#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.ini /home/hus/setup/k8s_workers_playbook.yaml",
-#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.ini /home/hus/setup/k8s_master_p2_playbook.yaml",
+#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.template /home/hus/setup/k8s_all_playbook.yaml",
+#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.template /home/hus/setup/k8s_master_p1_playbook.yaml",
+#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.template /home/hus/setup/k8s_workers_playbook.yaml",
+#       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /home/hus/setup/inventory.template /home/hus/setup/k8s_master_p2_playbook.yaml",
 #     ]
 #
 #     connection {

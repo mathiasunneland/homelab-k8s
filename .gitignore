@@ -29,8 +29,11 @@ coverage.txt
 .idea/
 
 # Terraform
-/.terraform
+terraform/.terraform
 terraform/terraform.tfvars
 *.hcl
 *.tfstate
 .terraform.tfstate.lock.info
+
+# Ansible
+ansible/inventory.ini

@@ -17,6 +17,7 @@ To use this project you need these dependencies installed locally:
 
 - [Terraform](https://developer.hashicorp.com/terraform/install)
 - [Go](https://go.dev/doc/install)
+- [jq](https://example.com)
 
 And a running Proxmox host on the same network:
 

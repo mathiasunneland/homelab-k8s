@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Starting full deploy"
+echo "Starting deployment"
 
 # Run Terraform
 cd terraform
@@ -13,10 +13,8 @@ cd ..
 cd ansible
 bash generate_inventory.sh
 
-# Run Ansible playbook
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.ini k8s_all_playbook.yaml
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.ini k8s_master_p1_playbook.yaml
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.ini k8s_master_p2_playbook.yaml
-ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.ini k8s_workers_playbook.yaml
+# Run Ansible playbooks
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.ini setup_files.yaml
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.ini setup_kubernetes.yaml
 
-echo "Deployment complete"
+echo "Deployment finished"

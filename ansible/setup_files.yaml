@@ -1,0 +1,22 @@
+- name: Setup files for master
+  hosts: k8s_master
+  become: true
+  vars_files:
+    - secrets.yaml
+  tasks:
+    - name: Copy kubeadm init config
+      template:
+       src: templates/kubeadm_init_config.yaml.j2
+       dest: /home/hus/kubeadm_init_config.yaml
+
+#####
+- name: Setup files for workers
+  hosts: k8s_workers
+  become: true
+  vars_files:
+    - secrets.yaml
+  tasks:
+    - name: Copy kubeadm join config
+      template:
+       src: templates/kubeadm_join_config.yaml.j2
+       dest: /home/hus/kubeadm_join_config.yaml

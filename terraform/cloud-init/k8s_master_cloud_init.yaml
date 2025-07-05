@@ -1,5 +1,5 @@
 #cloud-config
-hostname: k8s-master
+hostname: "k8s-master"
 timezone: Europe/Oslo
 users:
   - name: hus

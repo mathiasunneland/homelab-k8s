@@ -2,10 +2,10 @@ apiVersion: kubeadm.k8s.io/v1beta4
 caCertPath: /etc/kubernetes/pki/ca.crt
 discovery:
   bootstrapToken:
-    apiServerEndpoint: ${k8s_master_ip}:6443
-    token: ${kubeadm_token}
+    apiServerEndpoint: {{ k8s_master_ip }}:6443
+    token: {{ kubeadm_token }}
     unsafeSkipCAVerification: true
-  tlsBootstrapToken: ${kubeadm_token}
+  tlsBootstrapToken: {{ kubeadm_token }}
 kind: JoinConfiguration
 nodeRegistration:
   criSocket: unix:///var/run/containerd/containerd.sock

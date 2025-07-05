@@ -37,3 +37,4 @@ terraform/terraform.tfvars
 
 # Ansible
 ansible/inventory.ini
+ansible/secrets.yaml

@@ -1,6 +1,0 @@
-- hosts: k8s_workers
-  become: true
-  tasks:
-    - name: Join worker nodes to the master
-      shell: |
-        kubeadm join --config=/home/hus/setup/kubeadm_join_config.yaml

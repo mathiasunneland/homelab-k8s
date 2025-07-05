@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-echo "Generating Ansible inventory from Terraform output"
+echo "Generating Ansible inventory"
 
-# Capture output from Terraform
+# Save output from Terraform
 MASTER_IP=$(terraform -chdir=../terraform output -json k8s_master_ip | jq -r '.')
 WORKER_IPS=$(terraform -chdir=../terraform output -json k8s_worker_ips | jq -r '.[]')
 
@@ -26,4 +26,4 @@ $MASTER_IP ansible_user=hus
 $WORKER_LINES
 EOF
 
-echo "inventory.ini generated successfully"
+echo "Ansible inventory generated"

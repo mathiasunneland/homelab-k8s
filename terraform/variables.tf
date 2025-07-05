@@ -51,3 +51,9 @@ variable "k8s_worker_ip_start" {
   type        = string
   sensitive   = false
 }
+
+variable "k8s_worker_count" {
+  description = "count of k8s workers"
+  type        = number
+  sensitive   = false
+}

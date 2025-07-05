@@ -26,8 +26,8 @@ And a running Proxmox host on the same network:
 
 The code needs these changes for the project to work:
 
-1. Assign values to `/terraform/terraformExample.tfvars` and rename to `terraform.tfvars`
-2. Assign values to `/ansible/secretsExample.yaml` and rename to `secrets.yaml`
+1. Assign terraform values to `terraformExample.tfvars` and rename to `terraform.tfvars`
+2. Assign ansible values to `secretsExample.yaml` and rename to `secrets.yaml`
 
 The Proxmox host needs these changes for the project to work:
 

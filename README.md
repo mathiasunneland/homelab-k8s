@@ -14,8 +14,8 @@ cd homelab-k8s
 
 To use this project you need these prerequisites installed locally:
 
-- [Python 3](https://example.com)
-- [Ansible](https://example.com)
+- [Python 3](https://www.python.org/downloads/)
+- [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/index.html)
 - [Terraform](https://developer.hashicorp.com/terraform/install)
 
 And a running Proxmox host on the same network:
@@ -26,12 +26,12 @@ And a running Proxmox host on the same network:
 
 The code needs these changes for the project to work:
 
-1. Assign values to /terraform/terraformExample.tfvars and rename to terraform.tfvars
-2. Assign values to /ansible/secretsExample.yaml and rename to secrets.yaml
+1. Assign values to `/terraform/terraformExample.tfvars` and rename to `terraform.tfvars`
+2. Assign values to `/ansible/secretsExample.yaml` and rename to `secrets.yaml`
 
 The Proxmox host needs these changes for the project to work:
 
-3. Your public key needs to be added to ~/.ssh/authorized_keys
+3. Your public key needs to be added to authorized_keys
 
 ```bash
 # Run this on the Proxmox host shell
@@ -43,7 +43,7 @@ nano ~/.ssh/authorized_keys
 ssh-ed25519 ABCDEFGHIJKLMNOPQRSTUVWXYZ example@gmail.com
 ```
 
-4. The local-storage on Proxmox needs to support snippets
+4. The local storage on Proxmox needs to support snippets
 
 ```bash
 # Run this on the Proxmox host shell

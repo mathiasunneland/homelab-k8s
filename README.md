@@ -4,9 +4,8 @@ Homelab-k8s is a project that utilizes Proxmox, Terraform and Ansible to automat
 
 ## Installation
 
-Use git clone to download the project.
-
 ```bash
+# Clone the repository
 git clone https://github.com/mathiasunneland/homelab-k8s.git
 cd homelab-k8s
 ```
@@ -15,9 +14,9 @@ cd homelab-k8s
 
 To use this project you need these dependencies installed locally:
 
+- [Python 3](https://example.com)
+- [Ansible](https://example.com)
 - [Terraform](https://developer.hashicorp.com/terraform/install)
-- [Go](https://go.dev/doc/install)
-- [jq](https://example.com)
 
 And a running Proxmox host on the same network:
 
@@ -32,24 +31,23 @@ The code needs these changes for the project to work:
 
 The Proxmox host needs these changes for the project to work:
 
-- Your public key needs to be added to authorized_keys in ~/.ssh
+- Your public key needs to be added to ~/.ssh/authorized_keys
 - The local-storage on Proxmox needs to support snippets, heres how to do it:
 
 ```bash
-nano /etc/pve/storage.cfg # Run this on the Proxmox host shell
+# Run this on the Proxmox host shell
+nano /etc/pve/storage.cfg 
+```
 
+```bash
+ # Add "snippets" on content line of local storage
 dir: local
         path /var/lib/vz
-        content iso,vztmpl,backup,snippets # Add "snippets" here like this
-
-lvmthin: local-lvm
-        thinpool data
-        vgname pve
-        content rootdir,images
+        content iso,vztmpl,backup,snippets
 ```
 
 When everything is setup for deployment:
 ```bash
-# Run the deployment bash script
-bash deploy.sh
+# Run the deployment python script
+python3 deploy.py
 ```

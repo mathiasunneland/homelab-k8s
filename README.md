@@ -25,6 +25,7 @@ cd homelab-k8s
 2. Assign ansible values to `secretsExample.yaml` and rename to `secrets.yaml`
 
 **The Proxmox host needs these changes for the project to work:**
+
 3. Your public key needs to be added to authorized_keys
 ```bash
 # Run this on the Proxmox host shell

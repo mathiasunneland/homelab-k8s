@@ -1,6 +1,6 @@
 # homelab-k8s
 
-Homelab-k8s is a project that utilizes Proxmox, Terraform and Ansible to automate the deployment of a k8s-cluster.
+Homelab-k8s is a project that utilizes Proxmox, Terraform and Ansible to automate a customized deployment of a k8s-cluster.
 
 ## Installation
 
@@ -27,13 +27,13 @@ And a running Proxmox host on the same network:
 
 The code needs these changes for the project to work:
 
-- The terraform variables has no values by default, so you need to give them values at example.tfvars and renamed to terraform.tfvars
-- The project uses "Chess-live" as an example of how to use the project in practice, this will need to be replaced or completely removed
+- The terraform variables has no values by default, so you need to give them values at /terraform/terraformExample.tfvars and rename to terraform.tfvars
+- The ansible variables has no values by default, so you need to give them values at /ansible/secretsExample.yaml and rename to secrets.yaml
 
 The Proxmox host needs these changes for the project to work:
 
-- The control-vm public key needs to be added to authorized_keys in ~/.ssh
-- The local-storage on Proxmox needs to support snippets, so run this and make sure it does:
+- Your public key needs to be added to authorized_keys in ~/.ssh
+- The local-storage on Proxmox needs to support snippets, heres how to do it:
 
 ```bash
 nano /etc/pve/storage.cfg # Run this on the Proxmox host shell
@@ -49,13 +49,7 @@ lvmthin: local-lvm
 ```
 
 When everything is setup for deployment:
-```terraform
-# Initialize terraform
-terraform init
-
-# Show the execution plan
-terraform plan
-
-# Apply the changes
-terraform apply
+```bash
+# Run the deployment bash script
+bash deploy.sh
 ```

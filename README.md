@@ -10,9 +10,9 @@ git clone https://github.com/mathiasunneland/homelab-k8s.git
 cd homelab-k8s
 ```
 
-## Dependencies
+## Prerequisites
 
-To use this project you need these dependencies installed locally:
+To use this project you need these prerequisites installed locally:
 
 - [Python 3](https://example.com)
 - [Ansible](https://example.com)
@@ -22,17 +22,28 @@ And a running Proxmox host on the same network:
 
 - [Proxmox](https://www.proxmox.com/en/products/proxmox-virtual-environment/get-started)
 
-## Usage
+## Before Usage
 
 The code needs these changes for the project to work:
 
-- The terraform variables has no values by default, so you need to give them values at /terraform/terraformExample.tfvars and rename to terraform.tfvars
-- The ansible variables has no values by default, so you need to give them values at /ansible/secretsExample.yaml and rename to secrets.yaml
+1. Assign values to /terraform/terraformExample.tfvars and rename to terraform.tfvars
+2. Assign values to /ansible/secretsExample.yaml and rename to secrets.yaml
 
 The Proxmox host needs these changes for the project to work:
 
-- Your public key needs to be added to ~/.ssh/authorized_keys
-- The local-storage on Proxmox needs to support snippets, heres how to do it:
+3. Your public key needs to be added to ~/.ssh/authorized_keys
+
+```bash
+# Run this on the Proxmox host shell
+nano ~/.ssh/authorized_keys
+```
+
+```bash
+# Add your own public key
+ssh-ed25519 ABCDEFGHIJKLMNOPQRSTUVWXYZ example@gmail.com
+```
+
+4. The local-storage on Proxmox needs to support snippets
 
 ```bash
 # Run this on the Proxmox host shell
@@ -45,6 +56,8 @@ dir: local
         path /var/lib/vz
         content iso,vztmpl,backup,snippets
 ```
+
+## Usage
 
 When everything is setup for deployment:
 ```bash

@@ -1,12 +1,16 @@
 # k8s-launcher
 This is a project that utilizes Terraform and Ansible to automate a customized deployment of a k8s-cluster on a Proxmox host
 
+---
+
 ## Installation
 ```bash
 # Clone the repository
 git clone https://github.com/mathiasunneland/k8s-launcher.git
 cd k8s-launcher
 ```
+
+---
 
 ## Prerequisites
 
@@ -17,6 +21,8 @@ cd k8s-launcher
 
 **And a running Proxmox host on the same network:**
 - [Proxmox](https://www.proxmox.com/en/products/proxmox-virtual-environment/get-started)
+
+---
 
 ## Before Usage
 
@@ -47,6 +53,8 @@ dir: local
         path /var/lib/vz
         content iso,vztmpl,backup,snippets
 ```
+
+---
 
 ## Usage
 **When everything is setup for deployment:**
